@@ -4,9 +4,14 @@
 // * use basic||synthesizable SystemVerilog syntax
 module hello_world(
     input bit clk,
-    input bit reset
+    input bit reset,
+    // drive outputs from testbench-driver
+    output bit a_valid,
+    output bit [3:0] a_opcode,
+    output bit [1:0] a_beat,
+    output bit [7:0] a_data
 );
-    timeunit 1ns; // _Verilator_ ignores these
+    timeunit 1ns; // _verilator_ ignores these
     timeprecision 1ns;
 
     // verilator lint_off UNUSED
