@@ -1,6 +1,6 @@
 // template for a SV-collector which calls a C-monitor
 
-interface example_ifc (
+interface example_passive_ifc (
     // verilator lint_off UNUSED
     input bit clk,
     // verilator lint_on  UNUSED
@@ -28,9 +28,9 @@ interface example_ifc (
         $display("I am %m");
     end
 
-endinterface : example_ifc
+endinterface : example_passive_ifc
 
 // instantiate SV-collector in DUT with bind
 // verilator lint_off UNUSED
-bind hello_world example_ifc bind_ifc (.clk(clk), .cycle_count(counter));
+bind hello_world example_passive_ifc bind_passive_ifc (.clk(clk), .cycle_count(counter));
 // verilator lint_on UNUSED

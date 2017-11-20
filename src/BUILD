@@ -1,6 +1,10 @@
 genrule(
     name = "verilator",
-    srcs = ["hello_world.sv", "example_ifc.sv", "sim_main.cpp", "example_vpi.cpp"],
+    srcs = ["hello_world.sv",
+            "example_active_ifc.sv",
+            "example_passive_ifc.sv",
+            "sim_main.cpp",
+            "example_vpi.cpp"],
     outs = ["Vhello_world.mk"],
     local = 1,
     cmd = "/usr/local/bin/verilator -Wall -Mdir $(@D) -cc --exe $(SRCS)",
