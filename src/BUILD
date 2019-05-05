@@ -7,7 +7,7 @@ genrule(
             "example_vpi.cpp"],
     outs = ["Vhello_world.mk"],
     local = 1,
-    cmd = "/usr/local/bin/verilator -Wall -Mdir $(@D) -cc --exe $(SRCS)",
+    cmd = "verilator -Wall -Mdir $(@D) -cc --exe $(SRCS)",
     tools = [],
 )
 
