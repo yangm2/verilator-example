@@ -49,7 +49,7 @@ module hello_world(
     end
 
     // verilator coverage_off
-    import "DPI-C" function integer add (input integer a, input integer b);
+    import "DPI-C" pure function int add (input int a, input int b);
     initial begin
         $display("%x + %x = %x", line, 2, add(line,2));
     end

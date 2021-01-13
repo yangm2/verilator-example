@@ -17,7 +17,7 @@ interface example_passive_ifc (
     // endclocking
     // default clocking cb;
 
-    import "DPI-C" function void c_monitor (input integer a);
+    import "DPI-C" function void c_monitor (input int a);
     // NOTE: optimized so that it triggers only when cycle_count changes
     always @(cycle_count) begin
         c_monitor(cycle_count);
