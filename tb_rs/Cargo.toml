@@ -1,0 +1,16 @@
+[package]
+name = "tb_rs"
+version = "0.1.0"
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+name = "testbench"
+# crate-type = ["cdylib"]      # Creates dynamic lib
+crate-type = ["staticlib"] # Creates static lib
+
+[build-dependencies]
+cbindgen = "^0.20.0"
+
+[dependencies]
