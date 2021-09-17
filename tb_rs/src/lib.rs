@@ -59,8 +59,9 @@ use std::{collections::HashMap, error::Error, ffi::CStr, os::raw::c_char};
 //     name: &'static str,
 // }
 
-// includes verif/mod.rs
-mod verif;
+// TODO: move this up to WORKSPACE
+/// includes verif/mod.rs
+pub mod verif;
 
 /**
   example of a standalone interface Agent

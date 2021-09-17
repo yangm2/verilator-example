@@ -1,3 +1,7 @@
+//!
+//! DSL library for writing verification testbenches
+//!
+
 use std::fmt;
 
 #[derive(Clone)]

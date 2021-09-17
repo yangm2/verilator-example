@@ -1,3 +1,7 @@
+//!
+//!  mod to encapsulate Monitor code
+//!
+
 use crate::verif::{self, Objectify, PhasingA};
 use std::collections::HashMap;
 /**

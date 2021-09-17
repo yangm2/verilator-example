@@ -1,9 +1,6 @@
 use crate::verif::{self, Objectify, PhasingA, PhasingB, TlmPort, VirtualInterface};
 use std::collections::HashMap;
 
-/**
-  mod to encapsulate Monitor code
-*/
 mod monitor;
 
 /**
