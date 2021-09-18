@@ -4,6 +4,9 @@
 
 use std::fmt;
 
+pub mod sequencer;
+pub mod tlm;
+
 #[derive(Clone)]
 pub struct VirtualInterface;
 
@@ -87,17 +90,61 @@ impl fmt::Display for Phase {
 //     }
 // }
 
-/// Transaction-Level-Modeling
-pub trait Tlm<T> {
-    fn get_next_item(&self) -> T;
-}
+// mod Component {
+//     use std::error::Error;
 
-pub struct TlmPort<T> {
-    pub it: T,
-}
+//     struct Constructor<PHASE, OBJ> {
+//         phase: PHASE,
+//         object: OBJ,
+//     }
 
-impl<T> Tlm<T> for TlmPort<T> {
-    fn get_next_item(&self) -> T {
-        todo!()
-    }
-}
+//     struct BuildPhase;
+//     struct ConnectPhase;
+//     struct EndOfElaborationPhase;
+
+//     struct Frozen;
+
+//     pub fn from<OBJ>(obj: OBJ) -> Constructor<BuildPhase, OBJ> {
+//         Constructor {
+//             phase: BuildPhase,
+//             object: obj,
+//         }
+//     }
+
+//     impl<P, O> Constructor<P, O> {}
+
+//     impl<OBJ> Constructor<BuildPhase, OBJ> {
+//         pub fn into_connect(self) -> Constructor<ConnectPhase, OBJ> {
+//             Constructor {
+//                 phase: ConnectPhase,
+//                 object: self.object,
+//             }
+//         }
+//     }
+
+//     impl<OBJ> Constructor<ConnectPhase, OBJ> {
+//         pub fn into_endofelaboration(self) -> Constructor<EndOfElaborationPhase, OBJ> {
+//             Constructor {
+//                 phase: EndOfElaborationPhase,
+//                 object: self.object,
+//             }
+//         }
+//     }
+
+//     impl<OBJ> Constructor<EndOfElaborationPhase, OBJ> {
+//         pub fn into_component(self) -> OBJ {
+//             self.object
+//         }
+//     }
+// }
+
+// struct Agent {
+//     name: &'static str,
+//     mon: Monitor,
+//     drvr: Driver,
+//     seqr: Sequencer,
+// }
+
+// struct Env {
+//     name: &'static str,
+// }

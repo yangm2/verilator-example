@@ -1,4 +1,8 @@
-use crate::verif::{self, Objectify, PhasingA, PhasingB, TlmPort, VirtualInterface};
+//!
+//! First-party definition of a testbench agent
+//!
+
+use crate::verif::{self, Objectify, PhasingA, PhasingB, VirtualInterface, tlm::Tlm};
 use std::collections::HashMap;
 
 mod monitor;
@@ -12,8 +16,8 @@ pub struct Driver {
     pub component_db: HashMap<String, &'static mut dyn PhasingA>,
     pub phase: verif::Phase,
     pub vif: verif::VirtualInterface,
-    pub seq_item_port: verif::TlmPort<u32>,
-    pub rsp_port: verif::TlmPort<u32>,
+    pub seq_item_port: verif::tlm::TlmPort<u32>,
+    pub rsp_port: verif::tlm::TlmPort<u32>,
 }
 
 impl Objectify for Driver {
@@ -34,15 +38,6 @@ impl PhasingA for Driver {
         for v in self.component_db.values_mut() {
             v.configure();
         }
-    }
-}
-
-/**
-  Sequencer
-*/
-mod sequencer {
-    pub struct Sequencer {
-        pub name: &'static str,
     }
 }
 
@@ -84,17 +79,26 @@ impl PhasingA for Agent {
         );
 
         if self.is_active {
-            let drvr = Driver {
+            let seqr = verif::sequencer::new("a seqr");
+
+            let mut drvr = Driver {
                 name: "jklwej",
                 component_db: HashMap::new(),
                 phase: self.phase.clone(),
                 vif: VirtualInterface {},
-                rsp_port: TlmPort { it: 3 },
-                seq_item_port: TlmPort { it: 4 },
+                seq_item_port: verif::tlm::new(3),
+                rsp_port: verif::tlm::new(4), // pulls/calls seq_item
             };
+
+            // UVM "connect_phase" - assign/alias export (Fn) from sequencer as drvr.seq_item_port.call()
+            drvr.seq_item_port.set_callback(seqr.seq_item_export);
+
+            // FIXME: normally not called in Agent (temporarily here to check
+            // compile/types), move this code into the drvr run_phase
+            let foo = drvr.seq_item_port.call();
+
             self.component_db.insert(drvr.get_name(), Box::new(drvr));
         }
-
         // Top-Down configuration
         for v in self.component_db.values_mut() {
             v.configure();

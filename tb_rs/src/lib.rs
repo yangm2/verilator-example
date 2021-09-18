@@ -1,64 +1,5 @@
 use std::{collections::HashMap, error::Error, ffi::CStr, os::raw::c_char};
 
-// mod Component {
-//     use std::error::Error;
-
-//     struct Constructor<PHASE, OBJ> {
-//         phase: PHASE,
-//         object: OBJ,
-//     }
-
-//     struct BuildPhase;
-//     struct ConnectPhase;
-//     struct EndOfElaborationPhase;
-
-//     struct Frozen;
-
-//     pub fn from<OBJ>(obj: OBJ) -> Constructor<BuildPhase, OBJ> {
-//         Constructor {
-//             phase: BuildPhase,
-//             object: obj,
-//         }
-//     }
-
-//     impl<P, O> Constructor<P, O> {}
-
-//     impl<OBJ> Constructor<BuildPhase, OBJ> {
-//         pub fn into_connect(self) -> Constructor<ConnectPhase, OBJ> {
-//             Constructor {
-//                 phase: ConnectPhase,
-//                 object: self.object,
-//             }
-//         }
-//     }
-
-//     impl<OBJ> Constructor<ConnectPhase, OBJ> {
-//         pub fn into_endofelaboration(self) -> Constructor<EndOfElaborationPhase, OBJ> {
-//             Constructor {
-//                 phase: EndOfElaborationPhase,
-//                 object: self.object,
-//             }
-//         }
-//     }
-
-//     impl<OBJ> Constructor<EndOfElaborationPhase, OBJ> {
-//         pub fn into_component(self) -> OBJ {
-//             self.object
-//         }
-//     }
-// }
-
-// struct Agent {
-//     name: &'static str,
-//     mon: Monitor,
-//     drvr: Driver,
-//     seqr: Sequencer,
-// }
-
-// struct Env {
-//     name: &'static str,
-// }
-
 // TODO: move this up to WORKSPACE
 /// includes verif/mod.rs
 pub mod verif;
@@ -68,6 +9,9 @@ pub mod verif;
 */
 mod my_agent;
 
+/**
+ example of common environment for tests
+*/
 mod my_env {
 
     use crate::verif::{self, Objectify, PhasingA, PhasingB};
@@ -135,6 +79,9 @@ mod my_env {
 
 use crate::verif::PhasingA;
 
+/**
+ Example of a test
+*/
 struct Test1 {
     name: &'static str,
     component_db: HashMap<String, &'static dyn PhasingA>,
@@ -222,6 +169,9 @@ pub extern "C" fn run_test(test_name: *const c_char) -> () {
     ()
 }
 
+/**
+ Testbench-function tests (Testing the testbench, not the DUT)
+*/
 #[cfg(test)]
 mod tests {
     #[test]
