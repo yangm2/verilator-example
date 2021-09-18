@@ -41,15 +41,12 @@ mod my_env {
             use crate::my_agent;
 
             // Add an agent to the environment
-            let a = my_agent::Agent {
-                name: "lkjsdl",
-                component_db: HashMap::new(),
-                phase: self.phase.clone(),
-                is_active: true,
-            };
+            let a = my_agent::new("asdfasdf");
+            let mut b = a.to_active();
+            my_agent::Overload::configure(&mut b);
 
             self.component_db
-                .insert(String::from("agent1"), Box::new(a));
+                .insert(String::from("agent1"), Box::new(b));
 
             // Top-Down configuration
             for v in self.component_db.values_mut() {

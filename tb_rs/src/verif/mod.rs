@@ -4,6 +4,9 @@
 
 use std::fmt;
 
+pub mod agent;
+pub mod driver;
+pub mod monitor;
 pub mod sequencer;
 pub mod tlm;
 
@@ -18,6 +21,8 @@ pub trait PhasingA {
     fn get_phase(&self) -> Phase;
 
     /// Top-Down configuration
+    // FIXME: should this be immutable and just return a new
+    //        component-instance? or go further and use BuilderPattern?
     fn configure(&mut self);
 }
 
@@ -138,13 +143,8 @@ impl fmt::Display for Phase {
 //     }
 // }
 
-// struct Agent {
-//     name: &'static str,
-//     mon: Monitor,
-//     drvr: Driver,
-//     seqr: Sequencer,
-// }
+// https://hoverbear.org/blog/rust-state-machine-pattern/
+// wish Active/Passive could be part of a Enum, but unique methods cannot be attached to Enum-variants
 
-// struct Env {
-//     name: &'static str,
-// }
+pub struct ActiveMode;
+pub struct PassiveMode;

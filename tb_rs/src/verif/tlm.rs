@@ -24,7 +24,7 @@ impl<T> Tlm<T> for TlmPort<T> {
     }
 
     // TODO: not sure if this is safe ... Fn vs FnMut???
-    fn call(&mut self) -> T{
+    fn call(&mut self) -> T {
         if let Some(c) = &self.callback {
             c()
         } else {

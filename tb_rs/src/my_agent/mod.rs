@@ -2,93 +2,39 @@
 //! First-party definition of a testbench agent
 //!
 
-use crate::verif::{self, Objectify, PhasingA, PhasingB, VirtualInterface, tlm::Tlm};
+use crate::verif::{self, tlm::Tlm, ActiveMode, Objectify, PhasingA, PhasingB, VirtualInterface};
 use std::collections::HashMap;
 
-mod monitor;
-
 /**
-  Driver
+  Agent with stuff in it (e.g. Monitor, Driver, Sequencer)
 */
-pub struct Driver {
-    pub name: &'static str,
-    // heterogenous hashmap of Trait Objects
-    pub component_db: HashMap<String, &'static mut dyn PhasingA>,
-    pub phase: verif::Phase,
-    pub vif: verif::VirtualInterface,
-    pub seq_item_port: verif::tlm::TlmPort<u32>,
-    pub rsp_port: verif::tlm::TlmPort<u32>,
-}
 
-impl Objectify for Driver {
-    fn get_name(&self) -> String {
-        self.name.to_string()
-    }
-}
+/// re-export verif::agent::* APIs
+pub use crate::verif::agent::{Agent, new};
 
-impl PhasingA for Driver {
-    fn get_phase(&self) -> verif::Phase {
-        dbg!("{}", &self.phase);
-        println!("{}: {}", self.get_name(), &self.phase);
-        self.phase.clone()
-    }
-
+/// trait to Overload (with specialization?) specific APIs
+/// NOTE: "Overload" is *NOT* a Rust-keyword
+pub(crate) trait Overload {
     fn configure(&mut self) {
-        // Top-Down configuration
-        for v in self.component_db.values_mut() {
-            v.configure();
-        }
+        todo!()
     }
 }
 
-/**
-  Agent
-*/
-
-pub struct Agent {
-    pub name: &'static str,
-    // heterogenous hashmap of Trait Objects
-    pub component_db: HashMap<String, Box<dyn PhasingA>>,
-    pub phase: verif::Phase,
-    pub is_active: bool,
-}
-impl Objectify for Agent {
-    fn get_name(&self) -> String {
-        self.name.to_string()
-    }
-}
-
-impl PhasingA for Agent {
-    fn get_phase(&self) -> verif::Phase {
-        dbg!("{}", &self.phase);
-        println!("{}: {}", self.get_name(), &self.phase);
-        self.phase.clone()
-    }
-
+// FIXME: overloading with a trait works for a single-level, but how to inject several levels deeper (e.g. sequences, sequence-items)
+// FIXME: I'm not sure this ActiveMode-generic API makes sense
+impl Overload for verif::agent::Agent<ActiveMode> {
     fn configure(&mut self) {
         // allocate the child monitor and driver
-
         self.component_db.insert(
             String::from("kjsdkfjk"),
-            Box::new(monitor::Monitor {
-                name: "sldkfj",
-                component_db: HashMap::new(),
-                phase: self.phase.clone(),
-                vif: VirtualInterface {},
-            }),
+            Box::new(verif::monitor::new("a mon")),
         );
 
-        if self.is_active {
+        if self.is_active() {
+            // UVM "build_phase"
             let seqr = verif::sequencer::new("a seqr");
-
-            let mut drvr = Driver {
-                name: "jklwej",
-                component_db: HashMap::new(),
-                phase: self.phase.clone(),
-                vif: VirtualInterface {},
-                seq_item_port: verif::tlm::new(3),
-                rsp_port: verif::tlm::new(4), // pulls/calls seq_item
-            };
+            let mut drvr = verif::driver::new("a drvr");
+            drvr.configure(); // top-down configuration
 
             // UVM "connect_phase" - assign/alias export (Fn) from sequencer as drvr.seq_item_port.call()
             drvr.seq_item_port.set_callback(seqr.seq_item_export);
@@ -97,6 +43,7 @@ impl PhasingA for Agent {
             // compile/types), move this code into the drvr run_phase
             let foo = drvr.seq_item_port.call();
 
+            // FIXME: do we even need the HashMap since we are setting the key to be the "name" of the item?
             self.component_db.insert(drvr.get_name(), Box::new(drvr));
         }
         // Top-Down configuration

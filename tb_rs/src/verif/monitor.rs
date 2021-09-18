@@ -4,11 +4,13 @@
 
 use crate::verif::{self, Objectify, PhasingA};
 use std::collections::HashMap;
+
+use super::VirtualInterface;
 /**
   Monitor
 */
 pub struct Monitor {
-    pub name: &'static str,
+    pub name: String,
     // heterogenous hashmap of Trait Objects
     pub component_db: HashMap<String, Box<dyn PhasingA>>,
     pub phase: verif::Phase,
@@ -17,7 +19,7 @@ pub struct Monitor {
 
 impl<'a> Objectify for Monitor {
     fn get_name(&self) -> String {
-        self.name.to_string()
+        self.name.clone()
     }
 }
 
@@ -33,5 +35,14 @@ impl<'a> PhasingA for Monitor {
         self.component_db.values_mut().for_each(|v| {
             v.configure();
         });
+    }
+}
+
+pub fn new(name: &str) -> Monitor {
+    Monitor {
+        name: name.to_string(),
+        component_db: HashMap::new(),
+        phase: super::Phase::Allocated,
+        vif: VirtualInterface {},
     }
 }
