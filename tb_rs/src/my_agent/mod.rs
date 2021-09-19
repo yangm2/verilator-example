@@ -10,7 +10,9 @@ use std::collections::HashMap;
 */
 
 /// re-export verif::agent::* APIs
-pub use crate::verif::agent::{Agent, new};
+pub use crate::verif::agent::{new, Agent};
+
+pub use crate::verif::configuration::Configurable;
 
 /// trait to Overload (with specialization?) specific APIs
 /// NOTE: "Overload" is *NOT* a Rust-keyword

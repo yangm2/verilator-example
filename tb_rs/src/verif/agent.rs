@@ -64,3 +64,12 @@ impl Agent<super::PassiveMode> {
         false
     }
 }
+
+impl super::configuration::Configurable<Agent<super::ActiveMode>> for Agent<super::ActiveMode> {
+    fn config(
+        self,
+        c: verif::configuration::Configuration<Agent<super::ActiveMode>>,
+    ) -> Agent<super::ActiveMode> {
+        todo!()
+    }
+}

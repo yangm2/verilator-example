@@ -14,7 +14,9 @@ mod my_agent;
 */
 mod my_env {
 
-    use crate::verif::{self, Objectify, PhasingA, PhasingB};
+    use crate::verif::{
+        self, configuration::Configurable, ActiveMode, Objectify, PhasingA, PhasingB,
+    };
     use std::collections::HashMap;
 
     pub struct Env {
@@ -45,8 +47,16 @@ mod my_env {
             let mut b = a.to_active();
             my_agent::Overload::configure(&mut b);
 
+            fn configure(_s: &str) -> my_agent::Agent<ActiveMode> {
+                todo!()
+            }
+
+            let cfg = verif::configuration::new(Box::new(|| configure("asd")));
+
+            let c = b.config(cfg);
+
             self.component_db
-                .insert(String::from("agent1"), Box::new(b));
+                .insert(String::from("agent1"), Box::new(c));
 
             // Top-Down configuration
             for v in self.component_db.values_mut() {

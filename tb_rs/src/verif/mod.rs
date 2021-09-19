@@ -5,6 +5,7 @@
 use std::fmt;
 
 pub mod agent;
+pub mod configuration;
 pub mod driver;
 pub mod monitor;
 pub mod sequencer;
