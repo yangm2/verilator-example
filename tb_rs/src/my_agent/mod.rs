@@ -2,8 +2,7 @@
 //! First-party definition of a testbench agent
 //!
 
-use crate::verif::{self, tlm::Tlm, ActiveMode, Objectify, PhasingA, PhasingB, VirtualInterface};
-use std::collections::HashMap;
+use crate::verif::{self, tlm::Tlm, ActiveMode, Objectify, PhasingA};
 
 /**
   Agent with stuff in it (e.g. Monitor, Driver, Sequencer)
@@ -12,7 +11,6 @@ use std::collections::HashMap;
 /// re-export verif::agent::* APIs
 pub use crate::verif::agent::{new, Agent};
 
-pub use crate::verif::configuration::Configurable;
 
 /// trait to Overload (with specialization?) specific APIs
 /// NOTE: "Overload" is *NOT* a Rust-keyword

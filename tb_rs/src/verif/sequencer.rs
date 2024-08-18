@@ -3,7 +3,7 @@
 //!
 
 use super::{Objectify, PhasingB};
-use crate::verif::{self, PhasingA};
+use crate::verif::{PhasingA};
 use std::collections::HashMap;
 
 pub struct Sequencer {
