@@ -1,9 +1,9 @@
 # Intro
 This project ties together a few interesting technologies:
-* verilator
+* [verilator](https://www.veripool.org/verilator/)
 * SystemVerilog (for DUT & TB)
 * C/C++ (for TB & DUT)
-* Bazel (for building)
+* [Buck2](https://buck2.build/) (for building)
 * **TODO**: rust (for TB & DUT, maybe sim_main/wrapper/cmd-line-processing)
 
 # Components
@@ -17,12 +17,12 @@ This project ties together a few interesting technologies:
 
 # Commands
 * Clean:
+  * `buck2 clean`
 
-  `bazel clean`
 * Compile:
+  * `buck2 build //src:Vhello_world`
 
-  `bazel build //src:Vhello_world`
 * Run:
-
-  `bazel run //src:Vhello_world +MAX_CYCLES=23`
+  * `buck2 run //src:Vhello_world +MAX_CYCLES=23`
+  * `buck2 run //src:runsim`
   
