@@ -61,9 +61,9 @@ genrule(
 )
 
 # Run Vhello_world simulation with
-#   buck2 run //src:sim
+#   buck2 run //src:runsim, embedded MAX_CYCLES cannot be overridden
 command_alias(
-    name = "sim",
+    name = "runsim",
     exe = ":Vhello_world",
     args = [
         "+MAX_CYCLES=100",
