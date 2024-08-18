@@ -1,0 +1,71 @@
+genrule(
+    name = "verilator",
+    srcs = [
+        "hello_world.sv",
+        "example_passive_ifc.sv",
+        "example_active_ifc.sv",
+        "sim_main.cpp",
+        "example_vpi.cpp",
+    ],
+    # Need to shove all the generated files into a dir since `verilator` has
+    # it's own internal logic for naming those files
+    out = "verilator_output_dir",
+    cmd = """
+        verilator \
+            -Wall \
+            -Mdir ${OUT} \
+            -cc \
+            -CFLAGS "--std=c++20 -lstdc++" \
+            --exe \
+            ${SRCS}
+    """,
+)
+
+# FIXME: could separately compile example_vpi.o and just do link in Vhello_world.mk
+genrule(
+    name = "Vhello_world",
+    srcs = [
+        ":verilator",
+        "sim_main.cpp",
+        "example_vpi.cpp",
+    ],
+    out = "Vhello_world",
+    cmd = """
+        # NOTE: execution starts in SRCDIR
+
+        # copy all the source files together into TMP(dir)
+        for SRC in ${SRCS}; do
+        # Check if the source path is a directory
+        if [ -d "$SRC" ]; then
+            # Copy the contents of the directory to the destination
+            cp -r "$SRC/"* "${TMP}/"
+        elif [ -f "$SRC" ]; then
+            # Copy the individual file to the destination
+            cp "$SRC" "${TMP}/"
+        else
+            echo "Warning: $SRC is not a valid file or directory."
+        fi
+        done
+
+        # run Make in the TMP(dir)
+        /usr/bin/make \
+            -j \
+            -C ${TMP} \
+            --makefile Vhello_world.mk \
+            --print-directory
+        
+        # move the Make Target to the OUT(dir)
+        mv ${TMP}/Vhello_world ${OUT}
+    """,
+    executable = True,
+)
+
+# Run Vhello_world simulation with
+#   buck2 run //src:sim
+command_alias(
+    name = "sim",
+    exe = ":Vhello_world",
+    args = [
+        "+MAX_CYCLES=100",
+    ],
+)

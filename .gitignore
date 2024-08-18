@@ -1,4 +1,4 @@
-bazel-bin
-bazel-out
-bazel-testlogs
-bazel-verilator-example
+buck-bin
+buck-out
+buck-testlogs
+buck-verilator-example
