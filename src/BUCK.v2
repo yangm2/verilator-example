@@ -38,12 +38,12 @@ genrule(
         # Check if the source path is a directory
         if [ -d "$SRC" ]; then
             # Copy the contents of the directory to the destination
-            cp -r "$SRC/"* "${TMP}/"
+            cp -rn "$SRC/"* "${TMP}/"
         elif [ -f "$SRC" ]; then
             # Copy the individual file to the destination
-            cp "$SRC" "${TMP}/"
+            cp -n "$SRC" "${TMP}/"
         else
-            echo "Warning: $SRC is not a valid file or directory."
+            echo "Warning: $SRC is not a valid file or directory." && false
         fi
         done
 
