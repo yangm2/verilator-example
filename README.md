@@ -45,18 +45,20 @@ git pull --recurse-submodules
 ### Buck2
 
 * `prelude` submodule version needs to match (or be behind?) the corresponding installed `buck2` version
-  1. `buck2 --version` -- doesn't actually tell you anything useful
-  1. `which buck2` -- path name may give a clue to installed (prerelease) version
-     * on MacOS `nix` managed ```readlink `which buck2` ``` e.g. yields `/nix/store/0x6w5fqzvlbwla7dsq8n2bjimkqsqdm7-buck2-unstable-2024-05-15/bin/buck2`
-  1. refer to [buck2 releases on GitHub](https://github.com/facebook/buck2/releases)
-     * in the above example, look at [2024-05-15](https://github.com/facebook/buck2/releases/tag/2024-05-15)
-  1. download `prelude_hash` from assets
-  1. in repo ...
+  1. `buck2 --version` -- doesn't actually tell you anything useful for [`nix`-managed installs](https://github.com/NixOS/nixpkgs/tree/nixpkgs-unstable/pkgs/development/tools/build-managers/buck2)
+  1. [./utils/get-nix-buck2-prelude_hash.py](./utils/get-nix-buck2-prelude_hash.py) ...
+  ```sh
+  Reading inline script metadata from `./update-buck2-prelude.py`
+  nix installed version of unstable 'buck2' is [2024-10-15] at [/Users/michaelyang/.nix-profile/bin/buck2]
+  corresponding 'prelude_hash' is [615f852ad43a901d8a09b2cbbb3aefff61626c52]
+  ```
+  3. in repo ...
     ```sh
     cd prelude
-    git checkout `cat $PATH_TO/prelude_hash`
+    git pull
+    git checkout $__prelude_hash_FROM_ABOVE__
     cd `git rev-parse --show-toplevel`
     git add prelude
-    git commit -m 'bump buck2-prelude submodule for buck2 2024-05-15'
+    git commit -m 'bump buck2-prelude submodule for buck2 $__UNSTABLE_VERSION_FROM_ABOVE__'
     git push
     ```
