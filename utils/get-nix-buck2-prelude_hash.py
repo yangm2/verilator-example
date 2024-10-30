@@ -1,12 +1,15 @@
 #! /usr/bin/env -S uv run
 
-# other comments
+# quick and dirty Python/UV script to get the prelude_hash corresponding to the
+# nix-managed `buck2` release
+#
 
-# inline UV dependency install as metadata script ...
+# *********************************************************
+# ** inline UV dependency install as metadata script ... **
+# *********************************************************
 # /// script
 # requires-python = "~=3.11"
 # dependencies = [
-#   "pygit2",
 #   "requests",
 # ]
 # ///
@@ -15,7 +18,6 @@ import shutil
 import pathlib
 import re
 import requests
-import pygit2
 
 if pstr := shutil.which("buck2"):
     p = pathlib.Path(pstr)
