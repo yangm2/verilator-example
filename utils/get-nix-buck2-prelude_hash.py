@@ -3,12 +3,16 @@
 # quick and dirty Python/UV script to get the prelude_hash corresponding to the
 # nix-managed `buck2` release
 #
+# pre-req: this script assumes `buck2` was installed with
+#          [`nix`](https://github.com/NixOS/nixpkgs/tree/nixpkgs-unstable/pkgs/development/tools/build-managers/buck2)
+# pre-req: this script requires [uv](https://github.com/astral-sh/uv) in order
+#          to run (and install dependencies)
 
 # *********************************************************
 # ** inline UV dependency install as metadata script ... **
 # *********************************************************
 # /// script
-# requires-python = "~=3.11"
+# requires-python = ">=3.11"
 # dependencies = [
 #   "requests",
 # ]
