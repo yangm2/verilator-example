@@ -31,4 +31,5 @@ $ rm -rf dist/*.h
 ```
 
 # Artifacts
-* `target/{debug,release}/build/tb_rs-$HASH/testbench_svdpi.h`
+* `target/include/testbench_svdpi.h`
+* `target/{debug,release}/libtestbench.a`
