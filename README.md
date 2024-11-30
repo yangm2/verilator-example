@@ -37,8 +37,10 @@ git pull --recurse-submodules
   * `buck2 build //src:Vhello_world`
 
 * Run:
+  * `buck2 run //sim101`  # root-level alias with hard-coded args that reaches into `./src`
+  * `buck2 run //src:sim100`  # alias with hard-coded args
   * `buck2 run //src:Vhello_world +MAX_CYCLES=23`
-  * `buck2 run //src:runsim`
+
 
 ## Maintenance
 

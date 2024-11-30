@@ -9,7 +9,8 @@ genrule(
     ],
     # Need to shove all the generated files into a dir since `verilator` has
     # it's own internal logic for naming those files
-    out = "verilator_output_dir",
+    # out = "verilator_output_dir",
+    out = "Vhello_world",
     cmd = """
         verilator \
             -Wall \
@@ -62,12 +63,13 @@ genrule(
         mv ${TMP}/Vhello_world ${OUT}
     """,
     executable = True,
+    visibility = ['//:sim101'],
 )
 
 # Run Vhello_world simulation with
-#   buck2 run //src:runsim, embedded MAX_CYCLES cannot be overridden
+#   buck2 run //src:sim100, embedded MAX_CYCLES cannot be overridden
 command_alias(
-    name = "runsim",
+    name = "sim100",
     exe = ":Vhello_world",
     args = [
         "+MAX_CYCLES=100",
