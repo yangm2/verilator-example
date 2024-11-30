@@ -17,6 +17,10 @@ genrule(
             -cc \
             -CFLAGS "--std=c++20 -lstdc++" \
             --exe \
+            -sv \
+            +1800-2023ext+ \
+            --trace \
+            --trace-fst \
             ${SRCS}
     """,
 )

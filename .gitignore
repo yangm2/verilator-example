@@ -2,3 +2,4 @@ buck-bin
 buck-out
 buck-testlogs
 buck-verilator-example
+*.fst

@@ -29,16 +29,16 @@ interface example_active_ifc (
 
     // demonstrate final-block & display %m
     final begin
-        $display("I am %m");
+        $display("FINALLY: I am %m");
     end
 
 endinterface : example_active_ifc
 
 // instantiate SV-collector in DUT with bind
 // verilator lint_off UNUSED
-bind hello_world example_active_ifc bind_active_ifc (.clk(clk), 
-                                                     .valid_00H(a_valid), 
-                                                     .opcode_01H(a_opcode),
-                                                     .beat_0nH(a_beat),
-                                                     .data_0nH(a_data));
+bind hello_world example_active_ifc i_bind_active_ifc (.clk(clk), 
+                                                       .valid_00H(a_valid), 
+                                                       .opcode_01H(a_opcode),
+                                                       .beat_0nH(a_beat),
+                                                       .data_0nH(a_data));
 // verilator lint_on UNUSED

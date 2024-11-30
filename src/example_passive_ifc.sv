@@ -25,12 +25,12 @@ interface example_passive_ifc (
 
     // 
     final begin
-        $display("I am %m");
+        $display("FINALLY: I am %m");
     end
 
 endinterface : example_passive_ifc
 
 // instantiate SV-collector in DUT with bind
 // verilator lint_off UNUSED
-bind hello_world example_passive_ifc bind_passive_ifc (.clk(clk), .cycle_count(counter));
+bind hello_world example_passive_ifc i_bind_passive_ifc (.clk(clk), .cycle_count(counter));
 // verilator lint_on UNUSED
