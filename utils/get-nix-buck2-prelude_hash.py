@@ -15,6 +15,7 @@
 # requires-python = ">=3.11"
 # dependencies = [
 #   "requests",
+#   "types-requests",
 # ]
 # ///
 

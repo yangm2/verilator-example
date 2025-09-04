@@ -16,7 +16,7 @@ module hello_world(
 
     // verilator lint_off UNUSED
     // verilator lint_off UNDRIVEN
-    int unsigned line = `__LINE__;  
+    int unsigned line = `__LINE__;
     // verilator lint_on UNDRIVEN
     // verilator lint_on UNUSED
 
@@ -31,7 +31,7 @@ module hello_world(
         end
     end
 
-    int unsigned counter = 32'b0;
+    int unsigned counter;
     always_ff @(posedge clk) begin
         if (reset) begin
             counter <= 32'd0;
