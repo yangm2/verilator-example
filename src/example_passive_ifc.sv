@@ -19,9 +19,11 @@ interface example_passive_ifc (
 
     import "DPI-C" function void c_monitor (input int a);
     // NOTE: optimized so that it triggers only when cycle_count changes
+    /* verilator lint_off SYNCASYNCNET */
     always @(cycle_count) begin
         c_monitor(cycle_count);
     end
+    /* verilator lint_on  SYNCASYNCNET */
 
     // 
     final begin
